@@ -1,40 +1,43 @@
 import { useState, useEffect } from 'react'
 import type { BodyPartName, BodyGraphData } from '../types/body'
 import { computeLevel, LEVEL_COLORS } from '../types/body'
+import { getAccumulatedStats } from '../services/api'
 
 interface BodyGraphProps {
-  data?: BodyGraphData
   imageUrl: string
-  onUpdate?: (updated: BodyGraphData) => void
 }
 
-// Label positions for the body diagram (front and back views)
-// These are relative percentages of the image dimensions
+// Label positions based on where the lines point in the diagram (front and back)
+// Adjusted to match the actual label line endpoints on the body diagram
 const LABEL_POSITIONS: Record<BodyPartName, { x: number; y: number }> = {
-  Chest: { x: 45, y: 30 },
-  Back: { x: 65, y: 28 },
-  Core: { x: 48, y: 45 },
-  Shoulders: { x: 28, y: 18 },
-  Biceps: { x: 18, y: 35 },
-  Triceps: { x: 75, y: 38 },
-  Legs: { x: 60, y: 72 }
+  Shoulders: { x: 10, y: 15 },    // Top left, pointing to shoulders
+  Chest: { x: 42, y: 20 },        // Top center, pointing to chest
+  Back: { x: 72, y: 18 },         // Top right back, pointing to back
+  Biceps: { x: 5, y: 32 },        // Left side, pointing to biceps
+  Core: { x: 50, y: 42 },         // Center, pointing to abs/core
+  Triceps: { x: 82, y: 36 },      // Right side back, pointing to triceps
+  Legs: { x: 72, y: 68 }          // Lower right, pointing to legs
 }
 
 const BODY_PARTS: BodyPartName[] = ['Chest', 'Back', 'Legs', 'Shoulders', 'Biceps', 'Triceps', 'Core']
 
-export default function BodyGraph({ data = {}, imageUrl, onUpdate }: BodyGraphProps) {
-  const [weights, setWeights] = useState<BodyGraphData>(data)
+export default function BodyGraph({ imageUrl }: BodyGraphProps) {
+  const [stats, setStats] = useState<BodyGraphData>({})
 
   useEffect(() => {
-    setWeights(data)
-  }, [data])
+    // Load accumulated stats from localStorage sessions
+    const accumulatedStats = getAccumulatedStats()
+    setStats(accumulatedStats)
 
-  const handleWeightChange = (part: BodyPartName, value: number) => {
-    const updated = { ...weights, [part]: value }
-    setWeights(updated)
-    localStorage.setItem(`bodygraph_${part}`, JSON.stringify(value))
-    onUpdate?.(updated)
-  }
+    // Listen for storage changes (when SubmitStats saves a session)
+    const handleStorageChange = () => {
+      const updated = getAccumulatedStats()
+      setStats(updated)
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
+  }, [])
 
   return (
     <div style={{ width: '100%', padding: '2rem 0' }}>
@@ -62,12 +65,12 @@ export default function BodyGraph({ data = {}, imageUrl, onUpdate }: BodyGraphPr
             }}
           />
 
-          {/* Level Badges Overlay */}
+          {/* Level Badges Overlay - Positioned at label endpoints */}
           {BODY_PARTS.map((part) => {
-            const weight = weights[part] ?? 0
+            const weight = (stats[part] as number) ?? 0
             const level = computeLevel(weight)
-            const pos = LABEL_POSITIONS[part]
             const color = LEVEL_COLORS[level]
+            const pos = LABEL_POSITIONS[part]
 
             return (
               <div
@@ -79,15 +82,17 @@ export default function BodyGraph({ data = {}, imageUrl, onUpdate }: BodyGraphPr
                   transform: 'translate(-50%, -50%)',
                   backgroundColor: color,
                   color: level === 'Gold' || level === 'Diamond' || level === 'Silver' ? '#000' : '#fff',
-                  padding: '0.4rem 0.6rem',
+                  padding: '0.4rem 0.8rem',
                   borderRadius: '4px',
                   fontSize: '0.75rem',
                   fontWeight: 700,
                   border: '2px solid var(--accent-red)',
                   textAlign: 'center',
                   boxShadow: '0 2px 6px rgba(0, 0, 0, 0.4)',
-                  minWidth: '50px'
+                  minWidth: '55px',
+                  whiteSpace: 'nowrap'
                 }}
+                title={`${part}: ${weight.toLocaleString()} kg`}
               >
                 {level}
               </div>
@@ -96,19 +101,19 @@ export default function BodyGraph({ data = {}, imageUrl, onUpdate }: BodyGraphPr
         </div>
       </div>
 
-      {/* Weight Input Controls */}
+      {/* Body Part Stats Grid */}
       <div
         style={{
           marginTop: '2rem',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
           gap: '1rem',
           maxWidth: '600px',
           margin: '2rem auto 0'
         }}
       >
         {BODY_PARTS.map((part) => {
-          const weight = weights[part] ?? 0
+          const weight = (stats[part] as number) ?? 0
           const level = computeLevel(weight)
           const color = LEVEL_COLORS[level]
 
@@ -119,43 +124,37 @@ export default function BodyGraph({ data = {}, imageUrl, onUpdate }: BodyGraphPr
                 padding: '1rem',
                 backgroundColor: 'var(--tertiary-bg)',
                 borderRadius: '6px',
-                borderLeft: `4px solid ${color}`
+                borderLeft: `4px solid ${color}`,
+                textAlign: 'center'
               }}
             >
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: 600 }}>
+              <div style={{ fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.5rem' }}>
                 {part}
-              </label>
-              <input
-                type="number"
-                value={weight}
-                onChange={(e) => handleWeightChange(part, Math.max(0, Number(e.target.value)))}
-                style={{
-                  width: '100%',
-                  padding: '0.5rem',
-                  marginBottom: '0.5rem',
-                  backgroundColor: 'var(--secondary-bg)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '4px',
-                  color: 'var(--text-primary)',
-                  fontWeight: 600
-                }}
-              />
+              </div>
               <div
                 style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
                   color: color,
-                  textAlign: 'center'
+                  marginBottom: '0.5rem'
                 }}
               >
                 {level}
+              </div>
+              <div
+                style={{
+                  fontSize: '0.8rem',
+                  color: 'var(--text-secondary)'
+                }}
+              >
+                {weight.toLocaleString()} kg
               </div>
             </div>
           )
         })}
       </div>
 
-      {/* Summary Stats */}
+      {/* Total Summary */}
       <div
         style={{
           marginTop: '2rem',
@@ -167,9 +166,9 @@ export default function BodyGraph({ data = {}, imageUrl, onUpdate }: BodyGraphPr
           textAlign: 'center'
         }}
       >
-        <h3 style={{ marginBottom: '1rem' }}>Total Weight Lifted</h3>
-        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--accent-red)' }}>
-          {Object.values(weights).reduce((sum, w) => sum + (w ?? 0), 0).toLocaleString()} kg
+        <h3 style={{ marginBottom: '1rem' }}>Total Weight Lifted (All Time)</h3>
+        <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--accent-red)' }}>
+          {Object.values(stats).reduce((sum, w) => sum + (w ?? 0), 0).toLocaleString()} kg
         </div>
       </div>
     </div>

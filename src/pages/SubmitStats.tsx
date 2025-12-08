@@ -134,12 +134,25 @@ export default function SubmitStats() {
     setLoading(true)
     setMsg(null)
     try {
-      await submitStats({
+      const sessionData = {
         sessionTime,
         exercises,
         totalWeight,
         timestamp: new Date().toISOString()
-      })
+      }
+      
+      // Save to localStorage
+      const sessions = JSON.parse(localStorage.getItem('workoutSessions') || '[]')
+      sessions.push(sessionData)
+      localStorage.setItem('workoutSessions', JSON.stringify(sessions))
+      
+      // Try to submit to backend (optional)
+      try {
+        await submitStats(sessionData)
+      } catch {
+        // If backend fails, we still have localStorage saved
+      }
+      
       setMsg('✓ Workout saved successfully!')
       setExercises([])
       setSessionTime(60)
