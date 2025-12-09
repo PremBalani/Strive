@@ -7,11 +7,15 @@ export default function Home() {
 
   useEffect(() => {
     // Check if user is logged in by checking for stored user data
-    // Replace 'currentUser' with whatever key your app uses
-    const storedUser = sessionStorage.getItem('currentUser')
+    const storedUser = localStorage.getItem('currentUser')
     if (storedUser) {
-      setIsLoggedIn(true)
-      setUsername(storedUser)
+      try {
+        const user = JSON.parse(storedUser)
+        setIsLoggedIn(true)
+        setUsername(user.username || user.name)
+      } catch (err) {
+        console.error('Error parsing user data:', err)
+      }
     }
   }, [])
 
@@ -22,11 +26,6 @@ export default function Home() {
         <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)' }}>
           Compete with friends and track your gym progress
         </p>
-        {isLoggedIn && (
-          <p style={{ fontSize: '1.1rem', color: 'var(--accent-red)', fontWeight: 600, marginTop: '1rem' }}>
-            Welcome back, {username}! 💪
-          </p>
-        )}
       </div>
 
       {isLoggedIn ? (
@@ -43,14 +42,11 @@ export default function Home() {
               borderRadius: '12px',
               border: '1px solid var(--border-color)'
             }}>
-              <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Track Your Progress</h2>
-              <ul style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
-                <li>Time spent in the gym</li>
-                <li>Reps, sets, and total weight lifted</li>
-                <li>Maximum lifts by exercise</li>
-                <li>Body part-specific metrics</li>
-              </ul>
-              <Link to="/submit">
+              <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Stat Tracker</h2>
+              <p style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', lineHeight: '1.8' }}>
+                View your personal gym statistics, track your progress over time, and see how you're improving across all metrics.
+              </p>
+              <Link to="/me">
                 <button 
                   style={{ 
                     width: '100%',
@@ -67,7 +63,7 @@ export default function Home() {
                   onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-red-dark)'}
                   onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-red)'}
                 >
-                  Start Tracking
+                  View My Stats
                 </button>
               </Link>
             </div>
@@ -78,13 +74,10 @@ export default function Home() {
               borderRadius: '12px',
               border: '1px solid var(--border-color)'
             }}>
-              <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Compete with Friends</h2>
-              <ul style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
-                <li>Real-time leaderboards</li>
-                <li>Compare strength levels</li>
-                <li>Track your rank</li>
-                <li>Challenge your friends</li>
-              </ul>
+              <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Leaderboards</h2>
+              <p style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', lineHeight: '1.8' }}>
+                Compete with your friends, compare your lifts, and see where you rank across different exercises and metrics.
+              </p>
               <Link to="/leaderboards">
                 <button 
                   style={{ 
@@ -110,7 +103,7 @@ export default function Home() {
 
           <div style={{ textAlign: 'center', marginTop: '3rem' }}>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-              Ready to get started? <Link to="/me" style={{ color: 'var(--accent-red)', textDecoration: 'none', fontWeight: 600 }}>View your personal stats</Link> or <Link to="/submit" style={{ color: 'var(--accent-red)', textDecoration: 'none', fontWeight: 600 }}>submit your workout</Link>.
+              Ready to log a workout? <Link to="/submit" style={{ color: 'var(--accent-red)', textDecoration: 'none', fontWeight: 600 }}>Submit your workout</Link>
             </p>
           </div>
         </>
