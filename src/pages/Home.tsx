@@ -19,11 +19,11 @@ export default function Home() {
     <section>
       <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
         <h1 style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>Welcome to Strive</h1>
-        <p style={{ fontSize: '1.2rem', color: '#6b7280' }}>
+        <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)' }}>
           Compete with friends and track your gym progress
         </p>
         {isLoggedIn && (
-          <p style={{ fontSize: '1.1rem', color: '#ef4444', fontWeight: 600, marginTop: '1rem' }}>
+          <p style={{ fontSize: '1.1rem', color: 'var(--accent-red)', fontWeight: 600, marginTop: '1rem' }}>
             Welcome back, {username}! 💪
           </p>
         )}
@@ -39,9 +39,9 @@ export default function Home() {
           }}>
             <div style={{
               padding: '2rem',
-              backgroundColor: '#f9fafb',
+              backgroundColor: 'var(--secondary-bg)',
               borderRadius: '12px',
-              border: '1px solid #e5e7eb'
+              border: '1px solid var(--border-color)'
             }}>
               <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Track Your Progress</h2>
               <ul style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
@@ -55,7 +55,7 @@ export default function Home() {
                   style={{ 
                     width: '100%',
                     padding: '0.75rem',
-                    backgroundColor: '#ef4444',
+                    backgroundColor: 'var(--accent-red)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -64,8 +64,8 @@ export default function Home() {
                     cursor: 'pointer',
                     transition: 'background-color 0.2s'
                   }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dc2626'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ef4444'}
+                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-red-dark)'}
+                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-red)'}
                 >
                   Start Tracking
                 </button>
@@ -74,9 +74,9 @@ export default function Home() {
 
             <div style={{
               padding: '2rem',
-              backgroundColor: '#f9fafb',
+              backgroundColor: 'var(--secondary-bg)',
               borderRadius: '12px',
-              border: '1px solid #e5e7eb'
+              border: '1px solid var(--border-color)'
             }}>
               <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Compete with Friends</h2>
               <ul style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
@@ -90,7 +90,7 @@ export default function Home() {
                   style={{ 
                     width: '100%',
                     padding: '0.75rem',
-                    backgroundColor: '#ef4444',
+                    backgroundColor: 'var(--accent-red)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -99,8 +99,8 @@ export default function Home() {
                     cursor: 'pointer',
                     transition: 'background-color 0.2s'
                   }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dc2626'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ef4444'}
+                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-red-dark)'}
+                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-red)'}
                 >
                   View Leaderboards
                 </button>
@@ -109,8 +109,8 @@ export default function Home() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>
-              Ready to get started? <Link to="/me" style={{ color: '#ef4444', textDecoration: 'none', fontWeight: 600 }}>View your personal stats</Link> or <Link to="/submit" style={{ color: '#ef4444', textDecoration: 'none', fontWeight: 600 }}>submit your workout</Link>.
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+              Ready to get started? <Link to="/me" style={{ color: 'var(--accent-red)', textDecoration: 'none', fontWeight: 600 }}>View your personal stats</Link> or <Link to="/submit" style={{ color: 'var(--accent-red)', textDecoration: 'none', fontWeight: 600 }}>submit your workout</Link>.
             </p>
           </div>
         </>
@@ -123,9 +123,9 @@ export default function Home() {
         }}>
           <div style={{
             padding: '2rem',
-            backgroundColor: '#f9fafb',
+            backgroundColor: 'var(--secondary-bg)',
             borderRadius: '12px',
-            border: '1px solid #e5e7eb'
+            border: '1px solid var(--border-color)'
           }}>
             <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Track Your Progress</h2>
             <ul style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
@@ -138,9 +138,9 @@ export default function Home() {
 
           <div style={{
             padding: '2rem',
-            backgroundColor: '#f9fafb',
+            backgroundColor: 'var(--secondary-bg)',
             borderRadius: '12px',
-            border: '1px solid #e5e7eb'
+            border: '1px solid var(--border-color)'
           }}>
             <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Compete with Friends</h2>
             <ul style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
@@ -153,21 +153,21 @@ export default function Home() {
 
           <div style={{
             padding: '2rem',
-            backgroundColor: 'rgba(239, 68, 68, 0.05)',
+            backgroundColor: 'var(--tertiary-bg)',
             borderRadius: '12px',
-            border: '2px solid #ef4444',
+            border: '2px solid var(--accent-red)',
             gridColumn: 'span 2',
             textAlign: 'center'
           }}>
-            <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem', color: '#ef4444' }}>🔒 Login Required</h2>
-            <p style={{ marginBottom: '1.5rem', color: '#6b7280', fontSize: '1.1rem' }}>
+            <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem', color: 'var(--accent-red)' }}>🔒 Login Required</h2>
+            <p style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
               Log in to start tracking your workouts and competing with friends
             </p>
             <Link to="/login">
               <button 
                 style={{ 
                   padding: '0.75rem 2rem',
-                  backgroundColor: '#ef4444',
+                  backgroundColor: 'var(--accent-red)',
                   color: 'white',
                   border: 'none',
                   borderRadius: '8px',
@@ -176,8 +176,8 @@ export default function Home() {
                   cursor: 'pointer',
                   transition: 'background-color 0.2s'
                 }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dc2626'}
-                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ef4444'}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-red-dark)'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-red)'}
               >
                 Log In
               </button>
