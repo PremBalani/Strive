@@ -9,7 +9,8 @@ const EXERCISES_BY_BODYPART = {
     'Dumbbell Press',
     'Cable Fly',
     'Push-ups',
-    'Chest Dips'
+    'Chest Dips',
+    'Pec Deck',
   ],
   Back: [
     'Deadlift',
@@ -17,7 +18,9 @@ const EXERCISES_BY_BODYPART = {
     'Pull-ups',
     'Lat Pulldowns',
     'T-Bar Rows',
-    'Seated Rows'
+    'Seated Rows',
+    'Dumbbell Rows',
+    'Shrugs'
   ],
   Legs: [
     'Squats',
@@ -25,7 +28,10 @@ const EXERCISES_BY_BODYPART = {
     'Leg Curls',
     'Leg Extensions',
     'Lunges',
-    'Calf Raises'
+    'Calf Raises',
+    'Bulgarian Split Squats',
+    'Romanian Deadlifts',
+    'Stiff Leg Deadlifts',
   ],
   Shoulders: [
     'Military Press',
@@ -41,7 +47,8 @@ const EXERCISES_BY_BODYPART = {
     'Hammer Curls',
     'Cable Curls',
     'Preacher Curls',
-    'Machine Curls'
+    'Machine Curls',
+    'Bayesian Curls',
   ],
   Triceps: [
     'Tricep Dips',
@@ -77,8 +84,8 @@ export default function SubmitStats() {
   const [currentExercise, setCurrentExercise] = useState({
     exercise: EXERCISES_BY_BODYPART.Chest[0],
     sets: 3,
-    reps: 10,
-    weight: 100
+    reps: 0,
+    weight: 0
   })
   const [loading, setLoading] = useState(false)
   const [msg, setMsg] = useState<string | null>(null)
