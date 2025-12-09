@@ -11,7 +11,7 @@ export default function Leaderboards() {
     {
       title: 'Time in Gym',
       data: [
-        { rank: 1, name: 'Alice', value: '120 hrs' },
+        { rank: 1, name: 'Alice', value: '150 hrs' },
         { rank: 2, name: 'Bob', value: '95 hrs' },
         { rank: 3, name: 'Charlie', value: '80 hrs' },
       ]
@@ -19,9 +19,9 @@ export default function Leaderboards() {
     {
       title: 'Total Weight Lifted',
       data: [
-        { rank: 1, name: 'Bob', value: '50,000 lbs' },
-        { rank: 2, name: 'Charlie', value: '48,000 lbs' },
-        { rank: 3, name: 'Alice', value: '45,000 lbs' },
+        { rank: 1, name: 'Bob', value: '76,495 lbs' },
+        { rank: 2, name: 'Charlie', value: '39,545 lbs' },
+        { rank: 3, name: 'Alice', value: '28,480 lbs' },
       ]
     }
   ]
@@ -30,25 +30,25 @@ export default function Leaderboards() {
     {
       title: 'Bench Press (Max)',
       data: [
-        { rank: 1, name: 'Bob', value: '200' },
-        { rank: 2, name: 'Alice', value: '180' },
-        { rank: 3, name: 'Charlie', value: '160' },
+        { rank: 1, name: 'Bob', value: '250' },
+        { rank: 2, name: 'Alice', value: '165' },
+        { rank: 3, name: 'Charlie', value: '145' },
       ]
     },
     {
       title: 'Squat (Max)',
       data: [
-        { rank: 1, name: 'Charlie', value: '200' },
-        { rank: 2, name: 'Bob', value: '180' },
-        { rank: 3, name: 'Alice', value: '160' },
+        { rank: 1, name: 'Charlie', value: '315' },
+        { rank: 2, name: 'Bob', value: '275' },
+        { rank: 3, name: 'Alice', value: '225' },
       ]
     },
     {
       title: 'Deadlift (Max)',
       data: [
-        { rank: 1, name: 'Charlie', value: '200' },
-        { rank: 2, name: 'Bob', value: '180' },
-        { rank: 3, name: 'Alice', value: '160' },
+        { rank: 1, name: 'Charlie', value: '405' },
+        { rank: 2, name: 'Bob', value: '375' },
+        { rank: 3, name: 'Alice', value: '275' },
       ]
     }
   ]
